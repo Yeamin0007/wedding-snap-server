@@ -83,6 +83,19 @@ async function run(){
             const service = await reviewCollection.findOne(query);
             res.send(service);
         })
+        app.put('/reviews/:id', async(req, res)=>{
+            const id = req.params.id;
+            const filter = {_id: ObjectId(id)};
+            const view = req.body;
+            const option = {upsert: true};
+            const updatedReview = {
+                $set: {
+                    review: view.review
+                }
+            }
+            const result = await reviewCollection.updateOne(filter, updatedReview, option);
+            res.send(result);
+        })
 
         
 
